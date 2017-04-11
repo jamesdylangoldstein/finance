@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+    <list>
+        <ul>
+            {% for value in stock %}
+            <li>{{ value }}</li>
+            {% else %}
+            <li><em>not found</em></li>
+            {% endfor %}
+        </ul>
+        <ul>{{ order_num }}</ul>
+    </list>
+{% endblock %}

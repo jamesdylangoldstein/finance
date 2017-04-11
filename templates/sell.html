@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: gray;
+}
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+    <table width="70%" border="1" cellspacing="1" cellpadding="1">
+        <tr>
+            <th>Order Num</th>
+            <th>Name</th>
+            <th>Symbol</th>
+            <th>Price</th>
+            <th>Shares</th>
+            <th>Total</th>
+            <th>Sell Shares</th>
+        </tr>
+        {% for purchase in stock_purchases %}
+        <form action="{{ url_for('sell') }}" method="post">
+        <fieldset>
+            <tr>
+                <td>{{ purchase['order_num'] }}</td>
+                <td>{{ purchase['name'] }}</td>
+                <td>{{ purchase['symbol'] }}</td>
+                <td>{{ purchase['price'] }}</td>
+                <td>{{ purchase['shares'] }}</td>
+                <td>{{ purchase['total'] }}</td>
+                <td>
+                    <div class="form-group">
+                    <input type="hidden" name="order_num" value={{ purchase['order_num'] }}>
+                    <button class="btn btn-default" type="submit">Sell</button>
+                    </div>
+                </td>
+            </tr>
+        </fieldset>
+        </form>
+        {% endfor %}
+    </table>
+        
+    
+{% endblock %}

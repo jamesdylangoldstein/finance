@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: gray;
+}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <table width="70%" border="1" cellspacing="1" cellpadding="1">
+        <tr>
+            <th>Name</th>
+            <th>Symbol</th>
+            <th>Price</th>
+            <th>Shares</th>
+            <th>Total</th>
+        </tr>
+        {% for purchase in stock_purchases %}
+        <tr>
+            <td>{{ purchase['name'] }}</td>
+            <td>{{ purchase['symbol'] }}</td>
+            <td>{{ purchase['price'] }}</td>
+            <td>{{ purchase['shares'] }}</td>
+            <td>{{ purchase['total'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

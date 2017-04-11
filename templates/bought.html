@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Purchased
+{% endblock %}
+
+{% block main %}
+    <list>
+        <ul>{{ username }}</ul>
+        <ul>{{ id }}</ul>
+        <ul>{{ name }}</ul>
+        <ul>{{ symbol }}</ul>
+        <ul>{{ "${:,.2f}".format(price) }}</ul>
+        <ul>{{ num_shares }}</ul>
+        <ul>{{ "${:,.2f}".format(total_cost) }}</ul>
+    </list>
+{% endblock %}

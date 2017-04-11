@@ -1,0 +1,22 @@
+<form action="{{ url_for('sellselected') }}" method="post">
+        <fieldset>
+            <tr>
+                <td>{{ stock_to_sell['order_num'] }}</td>
+                <td>{{ stock_to_sell['name'] }}</td>
+                <td>{{ stock_to_sell['symbol'] }}</td>
+                <td>{{ stock_to_sell['price'] }}</td>
+                <td>{{ stock_to_sell['shares'] }}</td>
+                <td>{{ stock_to_sell['total'] }}</td>
+                <td>
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="sell_num" placeholder="# Shares" type="text"/>
+                    </div>
+                </td>
+            </tr>
+    </table>
+        <div class="form-group">
+            <input type="hidden" name="order_num" value=1>
+            <button class="btn btn-default" type="submit">Sell</button>
+        </div>
+        </fieldset>
+        </form>
