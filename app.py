@@ -188,9 +188,10 @@ def sell():
         #http://stackoverflow.com/questions/10974937/how-to-set-dynamically-the-width-of-a-html-table-column-according-to-its-text-co
         return render_template("sell.html", stock_purchases=stock_purchases)
 
-@app.route("/sellselected/<stock_to_sell>", methods=["GET", "POST"])
+@app.route("/sellselected/<order_num>", methods=["GET", "POST"])
 @login_required
-def sellselected(order_num):
+def sellselected(order_num, stock_to_sell):
+    stock_to_sell = db.execute("SELECT * FROM purchases WHERE order_num = :order_num", order_num=order_num)
     if request.method == "POST":
         # NOT DONE, WORKING ON GET FIRST
         #order_num = request.form["order_num"]
@@ -203,7 +204,6 @@ def sellselected(order_num):
         return redirect(url_for("index"))
     else:
         #NO FORMATTING YET, JUST ATTEMPTING TO PASS STOCK_TO_SELL TO TEMPLATE
-        stock_to_sell = db.execute("SELECT * FROM purchases WHERE order_num = :order_num", order_num=order_num)
         #https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
         #http://stackoverflow.com/questions/10974937/how-to-set-dynamically-the-width-of-a-html-table-column-according-to-its-text-co
         return render_template("sellselected.html", stock_to_sell=stock_to_sell, order_num=order_num)
