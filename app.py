@@ -191,8 +191,7 @@ def sell():
 @app.route("/sellselected/<order_num>", methods=["GET", "POST"])
 @login_required
 def sellselected(order_num, stock_to_sell):
-    #db.execute("SELECT * FROM purchases WHERE order_num = :order_num", order_num=order_num)
-    stock_to_sell = 4
+    stock_to_sell = db.execute("SELECT * FROM purchases WHERE order_num = :order_num", order_num=order_num)
     if request.method == "POST":
         # NOT DONE, WORKING ON GET FIRST
         #order_num = request.form["order_num"]
