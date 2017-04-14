@@ -7,13 +7,7 @@
 
 {% block main %}
     <list>
-        <ul>
-            {% for value in stock %}
-            <li>{{ value }}</li>
-            {% else %}
-            <li><em>not found</em></li>
-            {% endfor %}
-        </ul>
+        <ul>{{ stock_to_sell }}</ul>
         <ul>{{ order_num }}</ul>
     </list>
 {% endblock %}
