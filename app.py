@@ -188,7 +188,7 @@ def sell():
         #http://stackoverflow.com/questions/10974937/how-to-set-dynamically-the-width-of-a-html-table-column-according-to-its-text-co
         return render_template("sell.html", stock_purchases=stock_purchases)
 
-@app.route("/sellselected/<order_num>", methods=["GET", "POST"])
+@app.route("/sellselected/<stock_to_sell>", methods=["GET", "POST"])
 @login_required
 def sellselected(order_num):
     if request.method == "POST":
