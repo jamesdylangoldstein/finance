@@ -189,7 +189,7 @@ def sell():
         return render_template("sell.html", stock_purchases=stock_purchases)
 
 
-@app.route("/sellselected/<order_num>", methods=["GET", "POST"])
+@app.route("/sellselected/", methods=["GET", "POST"])
 @login_required
 def sellselected(order_num):
     stock_to_sell = db.execute("SELECT * FROM purchases WHERE order_num = :order_num", order_num=order_num)
