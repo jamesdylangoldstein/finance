@@ -38,9 +38,9 @@ db = SQL("sqlite:///finance.db")
 @login_required
 def index():
     id = session.get('user_id')
-    
+
     stock_purchases = db.execute("SELECT * FROM purchases WHERE id = :id", id=id)
-    
+
     #https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
     #http://stackoverflow.com/questions/10974937/how-to-set-dynamically-the-width-of-a-html-table-column-according-to-its-text-co
     return render_template("index.html", stock_purchases=stock_purchases)
@@ -51,7 +51,7 @@ def buy():
     if request.method == "POST":
         #http://stackoverflow.com/questions/32640090/python-flask-keeping-track-of-user-sessions-how-to-get-session-cookie-id
         id = session.get('user_id')
-        
+
         url_start = 'http://download.finance.yahoo.com/d/quotes.csv?s='
         url_middle = request.form["symbol"]
         url_end = '&f=nsl1d1t1c1ohgv&e=.csv'
@@ -59,26 +59,26 @@ def buy():
 
         # http://stackoverflow.com/questions/21351882/reading-data-from-a-csv-file-online-in-python-3
         response = urllib.request.urlopen(full_url)
-        
+
         datareader = csv.reader(io.TextIOWrapper(response))
         quote_list = list(datareader)
-        
+
         num_shares = request.form["num_shares"]
-        
+
         name = quote_list[0][0]
         symbol = quote_list[0][1]
         price = float(quote_list[0][2])
-        
+
         #http://stackoverflow.com/questions/12078571/jinja-templates-format-a-float-as-comma-separated-currency
         total_cost = round((float(price) * 100.0) * float(num_shares) / 100.0,2)
-        
+
         username = db.execute("SELECT username FROM users WHERE id = :id", id=id)
         username = username[0]
         username = username.get('username')
-        
+
         db.execute("INSERT INTO purchases (id, symbol, name, shares, price, total) VALUES(:id, :symbol, :name, :shares, :price, :total)",
             id=id, symbol=symbol, name=name, price=price, shares=num_shares, total=total_cost)
-        
+
         return render_template("bought.html", username=username, id=id, name=name, symbol=symbol, price=price, num_shares=num_shares, total_cost=total_cost)
     else:
         return render_template("buy.html")
@@ -138,7 +138,7 @@ def logout():
 @login_required
 def quote():
     if request.method == "POST":
-        
+
         url_start = 'http://download.finance.yahoo.com/d/quotes.csv?s='
         url_middle = request.form["symbol"]
         url_end = '&f=nsl1d1t1c1ohgv&e=.csv'
@@ -147,14 +147,14 @@ def quote():
 
         # http://stackoverflow.com/questions/21351882/reading-data-from-a-csv-file-online-in-python-3
         response = urllib.request.urlopen(full_url)
-        
+
         datareader = csv.reader(io.TextIOWrapper(response))
         quote_list = list(datareader)
-        
+
         name = quote_list[0][0]
         symbol = quote_list[0][1]
         price = quote_list[0][2]
-        
+
         return render_template("quote_display.html", name=name, symbol=symbol, price=price)
     else:
         return render_template("quote.html")
@@ -163,7 +163,7 @@ def quote():
 def register():
     if request.method == "POST":
         my_hash = pwd_context.hash(request.form["hash"])
-        
+
         db.execute("INSERT INTO users (username, hash) VALUES(:username, :hash)",
             username=request.form["username"], hash=my_hash)
         return render_template("login.html")
@@ -181,27 +181,28 @@ def sell():
         return render_template("sellselected.html", order_num=order_num)
     else:
         id = session.get('user_id')
-        
+
         stock_purchases = db.execute("SELECT * FROM purchases WHERE id = :id", id=id)
-        
+
         #https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
         #http://stackoverflow.com/questions/10974937/how-to-set-dynamically-the-width-of-a-html-table-column-according-to-its-text-co
         return render_template("sell.html", stock_purchases=stock_purchases)
-        
-@app.route("/sellselected", methods=["GET", "POST"])
+
+@app.route("/sellselected/<order_num>", methods=["GET", "POST"])
 @login_required
 def sellselected(order_num):
     if request.method == "POST":
+        # NOT DONE, WORKING ON GET FIRST
         #order_num = request.form["order_num"]
         #minus_shares = request.form["sell_num"]
         #command = db.execute("UPDATE purchases SET shares=7 WHERE order_num=order_num")
-        
+
         #https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_hidden
         #https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
         #http://stackoverflow.com/questions/10974937/how-to-set-dynamically-the-width-of-a-html-table-column-according-to-its-text-co
         return redirect(url_for("index"))
     else:
-
+        #NO FORMATTING YET, JUST ATTEMPTING TO PASS STOCK_TO_SELL TO TEMPLATE
         stock_to_sell = db.execute("SELECT * FROM purchases WHERE order_num = :order_num", order_num=order_num)
         #https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
         #http://stackoverflow.com/questions/10974937/how-to-set-dynamically-the-width-of-a-html-table-column-according-to-its-text-co
