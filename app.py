@@ -178,7 +178,7 @@ def sell():
         #https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_hidden
         #https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
         #http://stackoverflow.com/questions/10974937/how-to-set-dynamically-the-width-of-a-html-table-column-according-to-its-text-co
-        return render_template("sellselected.html", order_num=order_num)
+        return redirect(url_for("sellselected", order_num=order_num))
     else:
         id = session.get('user_id')
 
@@ -188,9 +188,10 @@ def sell():
         #http://stackoverflow.com/questions/10974937/how-to-set-dynamically-the-width-of-a-html-table-column-according-to-its-text-co
         return render_template("sell.html", stock_purchases=stock_purchases)
 
+
 @app.route("/sellselected/<order_num>", methods=["GET", "POST"])
 @login_required
-def sellselected(order_num, stock_to_sell):
+def sellselected(order_num):
     stock_to_sell = db.execute("SELECT * FROM purchases WHERE order_num = :order_num", order_num=order_num)
     if request.method == "POST":
         # NOT DONE, WORKING ON GET FIRST
