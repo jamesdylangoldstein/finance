@@ -6,10 +6,32 @@
 {% endblock %}
 
 {% block main %}
-    <list>
-        {% for data in stock_to_sell %}
-        <ul>{{ data }}</ul>
-        {% endfor %}
-        <ul>{{ order_num }}</ul>
-    </list>
+<table width="70%" border="1" cellspacing="1" cellpadding="1">
+    <tr>
+        <th>Order Num</th>
+        <th>Name</th>
+        <th>Symbol</th>
+        <th>Price</th>
+        <th>Shares</th>
+        <th>Total</th>
+        <th>Sell Shares</th>
+    </tr>
+    <form action="{{ url_for('sellselected') }}" method="post">
+    <fieldset>
+        <tr>
+            <td>{{ stock_to_sell['order_num'] }}</td>
+            <td>{{ stock_to_sell['name'] }}</td>
+            <td>{{ stock_to_sell['symbol'] }}</td>
+            <td>{{ stock_to_sell['price'] }}</td>
+            <td>{{ stock_to_sell['shares'] }}</td>
+            <td>{{ stock_to_sell['total'] }}</td>
+            <td>
+                <div class="form-group">
+                <input type="hidden" name="order_num" value={{ purchase['order_num'] }}>
+                <button class="btn btn-default" type="submit">Sell</button>
+                </div>
+            </td>
+        </tr>
+    </fieldset>
+    </form>
 {% endblock %}
