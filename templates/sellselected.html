@@ -7,7 +7,9 @@
 
 {% block main %}
     <list>
-        <ul>{{ stock_to_sell }}</ul>
+        {% for data in stock_to_sell %}
+        <ul>{{ data }}</ul>
+        {% endfor %}
         <ul>{{ order_num }}</ul>
     </list>
 {% endblock %}
